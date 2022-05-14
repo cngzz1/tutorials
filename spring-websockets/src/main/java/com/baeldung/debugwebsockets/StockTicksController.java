@@ -1,19 +1,23 @@
 package com.baeldung.debugwebsockets;
 
 import org.jetbrains.annotations.NotNull;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.jetbrains.annotations.UnmodifiableView;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
+
 
 @Controller
 public class StockTicksController {
-    private final SimpMessagingTemplate simpMessagingTemplate;
+    private final SimpMessageSendingOperations simpMessagingTemplate;
 
-    public StockTicksController(SimpMessagingTemplate simpMessagingTemplate) {
+    public StockTicksController(SimpMessageSendingOperations simpMessagingTemplate) {
         this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
@@ -22,16 +26,13 @@ public class StockTicksController {
         simpMessagingTemplate.convertAndSend("/topic/ticks", getStockTicks());
     }
 
-    private @NotNull Map<String, Integer> getStockTicks() {
-        Map<String, Integer> ticks = new HashMap<>();
-        ticks.put("AAPL", getRandomTick());
-        ticks.put("GOOGL", getRandomTick());
-        ticks.put("MSFT", getRandomTick());
-        ticks.put("TSLA", getRandomTick());
-        ticks.put("AMZN", getRandomTick());
-        ticks.put("HPE", getRandomTick());
+    private @NotNull @UnmodifiableView Map<String, Integer> getStockTicks() {
 
-        return ticks;
+        final Map<String, Integer> map = new ConcurrentHashMap<>();
+        for (final String s : List.of("AAPL", "GOOGL", "MSFT", "TSLA", "AMZN", "HPE")) {
+            map.put(s, getRandomTick());
+        }
+        return Collections.unmodifiableMap(map);
     }
 
     private int getRandomTick() {

@@ -8,15 +8,15 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 
 public class ExtendableBean {
     public String name;
-    private Map<String, String> properties;
+    private final Map<String, String> properties;
 
     public ExtendableBean() {
-        properties = new HashMap<String, String>();
+        properties = new HashMap<>();
     }
 
     public ExtendableBean(final String name) {
         this.name = name;
-        properties = new HashMap<String, String>();
+        properties = new HashMap<>();
     }
 
     @JsonAnySetter

@@ -3,6 +3,8 @@ package com.baeldung.lazy;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class LazyAnnotationUnitTest {
 
     @Test
@@ -11,8 +13,9 @@ public class LazyAnnotationUnitTest {
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
         ctx.register(AppConfig.class);
         ctx.refresh();
-        ctx.getBean(Region.class);
-        ctx.getBean(Country.class);
+        Region region = ctx.getBean(Region.class);
+        Country country = ctx.getBean(Country.class);
+        assertEquals(Country.class, country.getClass());
     }
 
     @Test

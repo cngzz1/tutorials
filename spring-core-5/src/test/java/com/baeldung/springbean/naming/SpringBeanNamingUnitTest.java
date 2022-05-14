@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
-public class SpringBeanNamingUnitTest {
+class SpringBeanNamingUnitTest {
 
     private AnnotationConfigApplicationContext context;
 

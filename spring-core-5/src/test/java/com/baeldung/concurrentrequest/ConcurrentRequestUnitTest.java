@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.ResultMatcher;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ConcurrentRequestUnitTest {
+class ConcurrentRequestUnitTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -26,12 +26,12 @@ public class ConcurrentRequestUnitTest {
     private ProductController controller;
 
     @Test
-    public void givenContextLoads_thenProductControllerIsAvailable() {
+    void givenContextLoads_thenProductControllerIsAvailable() {
         assertThat(controller).isNotNull();
     }
 
     @Test
-    public void givenMultipleCallsRunInParallel_thenAllCallsReturn200() throws Exception {
+    void givenMultipleCallsRunInParallel_thenAllCallsReturn200() throws Exception {
         ExecutorService executor = Executors.newFixedThreadPool(2);
 
         executor.submit(() -> performCall("/product/1", status().isOk()));

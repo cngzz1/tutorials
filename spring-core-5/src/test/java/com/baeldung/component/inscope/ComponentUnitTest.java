@@ -15,13 +15,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-public class ComponentUnitTest {
+class ComponentUnitTest {
 
     @Autowired
     private ApplicationContext applicationContext;
 
     @Test
-    public void givenInScopeComponents_whenSearchingInApplicationContext_thenFindThem() {
+    void givenInScopeComponents_whenSearchingInApplicationContext_thenFindThem() {
         assertNotNull(applicationContext.getBean(ControllerExample.class));
         assertNotNull(applicationContext.getBean(ServiceExample.class));
         assertNotNull(applicationContext.getBean(RepositoryExample.class));
@@ -30,23 +30,23 @@ public class ComponentUnitTest {
     }
 
     @Test
-    public void givenOutsideScopeComponent_whenSearchingInApplicationContext_thenFail() {
+    void givenOutsideScopeComponent_whenSearchingInApplicationContext_thenFail() {
         assertThrows(NoSuchBeanDefinitionException.class, () -> applicationContext.getBean(OutsideScopeExample.class));
     }
 
     @Test
-    public void givenScannedScopeComponent_whenSearchingInApplicationContext_thenFindIt() {
+    void givenScannedScopeComponent_whenSearchingInApplicationContext_thenFindIt() {
         assertNotNull(applicationContext.getBean(ScannedScopeExample.class));
     }
 
     @Test
-    public void givenBeanComponents_whenSearchingInApplicationContext_thenFindThem() {
+    void givenBeanComponents_whenSearchingInApplicationContext_thenFindThem() {
         assertNotNull(applicationContext.getBean(BeanExample.class));
         assertNotNull(applicationContext.getBean(OutsideScopeBeanExample.class));
     }
 
     @Test
-    public void givenAmbiguousBeanSetToB_whenSearchingInApplicationContext_thenFindImplB() {
+    void givenAmbiguousBeanSetToB_whenSearchingInApplicationContext_thenFindImplB() {
         AmbiguousBean ambiguousBean = applicationContext.getBean(AmbiguousBean.class);
         assertNotNull(ambiguousBean);
         assertTrue(ambiguousBean instanceof BeanImplB);

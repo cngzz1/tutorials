@@ -10,6 +10,7 @@ import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.cookie.BasicClientCookie;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,13 +20,13 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 
 
-public class HttpClientGettingCookieValueUnitTest {
+class HttpClientGettingCookieValueUnitTest {
     private static Logger log = LoggerFactory.getLogger(HttpClientGettingCookieValueUnitTest.class);
 
     private static final String SAMPLE_URL = "http://www.baeldung.com/";
 
     @Test
-    public final void whenSettingCustomCookieOnTheRequest_thenGettingTheSameCookieFromTheResponse() throws IOException {
+    final void whenSettingCustomCookieOnTheRequest_thenGettingTheSameCookieFromTheResponse() throws IOException {
         HttpClientContext context = HttpClientContext.create();
         context.setAttribute(HttpClientContext.COOKIE_STORE, createCustomCookieStore());
 
@@ -39,7 +40,7 @@ public class HttpClientGettingCookieValueUnitTest {
                   .findFirst()
                   .orElseThrow(IllegalStateException::new);
 
-                assertEquals("test_value", customCookie.getValue());
+                Assertions.assertEquals("test_value", customCookie.getValue());
             }
         }
     }

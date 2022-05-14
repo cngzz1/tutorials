@@ -1,6 +1,7 @@
 package com.baeldung.concurrentrequest;
 
-public class Stock {
+public class Stock<E> implements IStock<E> {
+    private E stockType;
     private final int inStockItems;
 
     public Stock(int inStockItems) {
@@ -9,5 +10,8 @@ public class Stock {
 
     public int getInStockItems() {
         return inStockItems;
+    }
+    public E getType(){
+        return stockType;
     }
 }

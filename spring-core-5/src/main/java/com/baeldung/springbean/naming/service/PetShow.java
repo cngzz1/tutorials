@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PetShow {
+public class PetShow implements IShow<Animal> {
 
     @Autowired
     @Qualifier("dog")
@@ -23,4 +23,6 @@ public class PetShow {
     public Animal getCat() {
         return cat;
     }
+
+
 }

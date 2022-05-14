@@ -5,26 +5,30 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
+
 @RestController()
 @RequestMapping("product")
-public class ProductController {
+public class ProductController implements IProductController<Stock<Object>> {
 
-    private final ProductService productService;
+    private final ProductService<Stock<Object>> productService;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
+    public ProductController(ProductService<Stock<Object>> productService) {
+        this.productService = Objects.requireNonNull(productService);
     }
 
+    @Override
     @GetMapping("/{id}")
-    public Product getProductDetails(@PathVariable("id") int productId) {
+    public Product<Stock<Object>> getProductDetails(@PathVariable("id") int productId) {
         return productService.getProductById(productId)
           .orElse(null);
     }
 
+    @Override
     @GetMapping("{id}/stock")
-    public Stock getProductStock(@PathVariable("id") int productId) {
+    public Stock<Object> getProductStock(@PathVariable("id") int productId) {
         return productService.getProductById(productId)
-          .map(Product::getStock)
+          .map(Product::get)
           .orElse(null);
     }
 }

@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class LazyAnnotationUnitTest {
 
@@ -13,8 +14,8 @@ public class LazyAnnotationUnitTest {
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
         ctx.register(AppConfig.class);
         ctx.refresh();
-        Region region = ctx.getBean(Region.class);
-        Country country = ctx.getBean(Country.class);
+        final Region region = ctx.getBean(Region.class);
+        final Country country = ctx.getBean(Country.class);
         assertEquals(Country.class, country.getClass());
     }
 
@@ -24,7 +25,8 @@ public class LazyAnnotationUnitTest {
         ctx.register(AppConfig.class);
         ctx.refresh();
         Region region = ctx.getBean(Region.class);
-        region.getCityInstance();
+        final City city = region.getCityInstance();
+        assertNotEquals(City.class, city.getClass());
     }
 
     @Test
@@ -32,6 +34,7 @@ public class LazyAnnotationUnitTest {
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
         ctx.register(AppConfig.class);
         ctx.refresh();
-        ctx.getBean(Region.class);
+        final Region region = ctx.getBean(Region.class);
+        assertEquals(Region.class, region.getClass());
     }
 }

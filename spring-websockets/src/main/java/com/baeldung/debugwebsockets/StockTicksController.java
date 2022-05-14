@@ -1,5 +1,6 @@
 package com.baeldung.debugwebsockets;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,7 @@ public class StockTicksController {
         simpMessagingTemplate.convertAndSend("/topic/ticks", getStockTicks());
     }
 
-    private Map<String, Integer> getStockTicks() {
+    private @NotNull Map<String, Integer> getStockTicks() {
         Map<String, Integer> ticks = new HashMap<>();
         ticks.put("AAPL", getRandomTick());
         ticks.put("GOOGL", getRandomTick());

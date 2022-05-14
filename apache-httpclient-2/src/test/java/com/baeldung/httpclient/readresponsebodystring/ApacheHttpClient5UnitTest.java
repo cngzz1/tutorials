@@ -12,6 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Objects;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ApacheHttpClient5UnitTest {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -19,11 +22,14 @@ public class ApacheHttpClient5UnitTest {
 
     @Test
     public void whenUseApacheHttpClient_thenCorrect() throws IOException, ParseException {
-        HttpGet request = new HttpGet(DUMMY_URL);
+        final HttpGet request = new HttpGet(DUMMY_URL);
 
-        try (CloseableHttpClient client = HttpClients.createDefault(); CloseableHttpResponse response = client.execute(request)) {
-            HttpEntity entity = response.getEntity();
-            logger.debug("Response -> {}", EntityUtils.toString(entity));
+        try (final CloseableHttpClient client = HttpClients.createDefault()) {
+            try (final CloseableHttpResponse response = Objects.requireNonNull(client).execute(Objects.requireNonNull(request))) {
+                final HttpEntity entity = Objects.requireNonNull(response).getEntity();
+                logger.debug("Response -> {}", EntityUtils.toString(entity));
+            }
         }
+        assertEquals(HttpGet.class, request.getClass());
     }
 }

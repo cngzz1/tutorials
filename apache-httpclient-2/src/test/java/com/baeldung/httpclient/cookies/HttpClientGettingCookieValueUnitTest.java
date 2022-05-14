@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 
 
 class HttpClientGettingCookieValueUnitTest {
-    private static Logger log = LoggerFactory.getLogger(HttpClientGettingCookieValueUnitTest.class);
+    private static final Logger log = LoggerFactory.getLogger(HttpClientGettingCookieValueUnitTest.class);
 
     private static final String SAMPLE_URL = "http://www.baeldung.com/";
 

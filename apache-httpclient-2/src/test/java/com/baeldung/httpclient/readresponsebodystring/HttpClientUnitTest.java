@@ -13,11 +13,11 @@ public class HttpClientUnitTest {
 
     @Test
     public void whenUseHttpClient_thenCorrect() throws IOException, InterruptedException {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(DUMMY_URL)).build();
+        final HttpClient client = HttpClient.newHttpClient();
+        final HttpRequest request = HttpRequest.newBuilder().uri(URI.create(DUMMY_URL)).build();
 
         // synchronous response
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         System.out.println(response.body());
 
         // asynchronous response

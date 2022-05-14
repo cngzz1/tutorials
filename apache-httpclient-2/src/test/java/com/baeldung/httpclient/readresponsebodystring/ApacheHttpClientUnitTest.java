@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class ApacheHttpClientUnitTest {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -21,7 +22,7 @@ public class ApacheHttpClientUnitTest {
         HttpGet request = new HttpGet(DUMMY_URL);
 
         try (CloseableHttpClient client = HttpClients.createDefault(); CloseableHttpResponse response = client.execute(request)) {
-            HttpEntity entity = response.getEntity();
+            HttpEntity entity = Objects.requireNonNull(response).getEntity();
             logger.debug("Response -> {}",  EntityUtils.toString(entity));
         }
     }

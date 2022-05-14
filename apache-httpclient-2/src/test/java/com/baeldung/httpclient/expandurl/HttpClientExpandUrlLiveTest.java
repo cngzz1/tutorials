@@ -21,6 +21,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HttpClientExpandUrlLiveTest {
 
@@ -35,18 +36,18 @@ public class HttpClientExpandUrlLiveTest {
     public final void givenShortenedOnce_whenUrlIsExpanded_thenCorrectResult() throws IOException {
         final String expectedResult = "https://www.baeldung.com/rest-versioning";
         final String actualResult = expandSingleLevel("http://bit.ly/3LScTri");
-        assertThat(actualResult, equalTo(expectedResult));
+        assertEquals(actualResult, expectedResult);
     }
 
     @Test
     public final void givenShortenedMultiple_whenUrlIsExpanded_thenCorrectResult() throws IOException {
         final String expectedResult = "https://www.baeldung.com/rest-versioning";
-        final String actualResult = expand("http://t.co/e4rDDbnzmk");
-        assertThat(actualResult, equalTo(expectedResult));
+        final String actualResult = expand();
+        assertEquals(actualResult, (expectedResult));
     }
 
-    private String expand(final String urlArg) throws IOException {
-        String originalUrl = urlArg;
+    private String expand() throws IOException {
+        String originalUrl = "http://t.co/e4rDDbnzmk";
         String newUrl = expandSingleLevel(originalUrl);
         while (!originalUrl.equals(newUrl)) {
             originalUrl = newUrl;

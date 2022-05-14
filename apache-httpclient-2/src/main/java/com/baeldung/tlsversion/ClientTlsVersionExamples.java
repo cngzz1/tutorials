@@ -12,13 +12,14 @@ import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class ClientTlsVersionExamples {
-
+    private static final String TLS_V3 = "TLSv1.3";
     public static CloseableHttpClient setViaSocketFactory() {
         SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
           SSLContexts.createDefault(),
-          new String[] { "TLSv1.2", "TLSv1.3" },
+          new String[] { "TLSv1.2", TLS_V3 },
           null,
           SSLConnectionSocketFactory.getDefaultHostnameVerifier());
 
@@ -30,11 +31,11 @@ public class ClientTlsVersionExamples {
 
             @Override
             protected void prepareSocket(SSLSocket socket) {
-                String hostname = socket.getInetAddress().getHostName();
-                if (hostname.endsWith("internal.system.com")) {
-                    socket.setEnabledProtocols(new String[] { "TLSv1", "TLSv1.1", "TLSv1.2", "TLSv1.3" });
+                String hostname = Objects.requireNonNull(socket).getInetAddress().getHostName();
+                if (Objects.requireNonNull(hostname).endsWith("internal.system.com")) {
+                    Objects.requireNonNull(socket).setEnabledProtocols(new String[] { "TLSv1", "TLSv1.1", "TLSv1.2", TLS_V3 });
                 } else {
-                    socket.setEnabledProtocols(new String[] { "TLSv1.3" });
+                    Objects.requireNonNull(socket).setEnabledProtocols(new String[] { TLS_V3 });
                 }
             }
         };
@@ -46,19 +47,14 @@ public class ClientTlsVersionExamples {
     // For example: java -Dhttps.protocols=TLSv1.1,TLSv1.2,TLSv1.3 -jar webClient.jar
     public static CloseableHttpClient setViaSystemProperties() {
         return HttpClients.createSystem();
-        // Alternatively:
-        // return HttpClients.custom().useSystemProperties().build();
     }
 
     public static void main(String[] args) throws IOException {
-        // Alternatively:
-        // CloseableHttpClient httpClient = setTlsVersionPerConnection();
-        // CloseableHttpClient httpClient = setViaSystemProperties();
-        try (CloseableHttpClient httpClient = setViaSocketFactory();
-           CloseableHttpResponse response = httpClient.execute(new HttpGet("https://httpbin.org/"))) {
+        try (final CloseableHttpClient httpClient = setViaSocketFactory();
+           final CloseableHttpResponse response = Objects.requireNonNull(httpClient).execute(new HttpGet("https://httpbin.org/"))) {
 
-            HttpEntity entity = response.getEntity();
-            EntityUtils.consume(entity);
+            final HttpEntity entity = Objects.requireNonNull(response).getEntity();
+            EntityUtils.consume(Objects.requireNonNull(entity));
         }
     }
 }

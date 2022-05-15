@@ -11,7 +11,6 @@ import hudson.tasks.BuildWrapperDescriptor;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import javax.annotation.Nonnull;
-import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Stack;
 
